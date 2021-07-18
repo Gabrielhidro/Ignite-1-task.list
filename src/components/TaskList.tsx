@@ -15,11 +15,12 @@ interface Task {
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
-
+  const [id, setId] = useState<number>()
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal() {
-    setIsOpen(true);
+    setIsOpen(true)
+
   }
 
   function closeModal() {
@@ -53,8 +54,9 @@ export function TaskList() {
 
 
 
-  function handleRemoveTask(id: number) {
+  function handleRemoveTask() {
 
+    setIsOpen(false)
     const filterTask = tasks.filter(task => task.id !== id);
     setTasks(filterTask)
   }
@@ -96,26 +98,29 @@ export function TaskList() {
                 <p>{task.title}</p>
               </div>
 
-              <button type="button" data-testid="remove-task-button" onClick={() => setIsOpen(true)} >
+              <button type="button" data-testid="remove-task-button" onClick={() => {
+                setId(task.id),
+                  openModal()
+              }} >
                 <FiTrash size={16} />
               </button>
-
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                overlayClassName='react-modal-overlay'
-                className='modal-content'
-              >
-                <h1>Tem certeza que desaja excluir essa Task ?</h1>
-                <div>
-                  <button onClick={() => setIsOpen(false)}>Não</button>
-                  <button onClick={() => handleRemoveTask(task.id)}>Sim</button>
-                </div>
-              </Modal>
             </li>
+
           ))}
         </ul>
       </main>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        overlayClassName='react-modal-overlay'
+        className='modal-content'
+      >
+        <h1>Tem certeza que desaja excluir essa Task ?</h1>
+        <div>
+          <button onClick={() => setIsOpen(false)}>Não</button>
+          <button onClick={handleRemoveTask}>Sim</button>
+        </div>
+      </Modal>
     </section>
   )
 }
