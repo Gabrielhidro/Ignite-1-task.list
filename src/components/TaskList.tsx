@@ -108,7 +108,7 @@ export function TaskList() {
               >
                 <h1>Tem certeza que desaja excluir essa Task ?</h1>
                 <div>
-                  <button>Não</button>
+                  <button onClick={() => setIsOpen(false)}>Não</button>
                   <button onClick={() => handleRemoveTask(task.id)}>Sim</button>
                 </div>
               </Modal>
