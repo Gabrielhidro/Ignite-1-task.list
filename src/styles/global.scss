@@ -69,5 +69,20 @@ button,
     gap: 1rem;
   }
 
-  button {}
+  button {
+    background: rgb(71, 71, 245);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+
+  button+button {
+    background: rgb(243, 64, 64);
+  }
 }
