@@ -4,6 +4,8 @@ import '../styles/tasklist.scss'
 
 import { FiTrash, FiCheckSquare } from 'react-icons/fi'
 
+import Modal from 'react-modal';
+
 interface Task {
   id: number;
   title: string;
@@ -13,6 +15,17 @@ interface Task {
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+
+  }
 
   function handleCreateNewTask() {
     if (!newTaskTitle) return;
@@ -38,13 +51,14 @@ export function TaskList() {
     setTasks(newTasks)
   }
 
+
+
   function handleRemoveTask(id: number) {
-    // Remova uma task da listagem pelo ID
 
     const filterTask = tasks.filter(task => task.id !== id);
-
     setTasks(filterTask)
   }
+
 
 
   return (
@@ -82,12 +96,24 @@ export function TaskList() {
                 <p>{task.title}</p>
               </div>
 
-              <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
+              <button type="button" data-testid="remove-task-button" onClick={() => setIsOpen(true)} >
                 <FiTrash size={16} />
               </button>
+
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                overlayClassName='react-modal-overlay'
+                className='modal-content'
+              >
+                <h1>Tem certeza que desaja excluir essa Task ?</h1>
+                <div>
+                  <button>Não</button>
+                  <button onClick={() => handleRemoveTask(task.id)}>Sim</button>
+                </div>
+              </Modal>
             </li>
           ))}
-
         </ul>
       </main>
     </section>
